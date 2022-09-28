@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Technical Q&amp;A QA1753: Bonjour over Bluetooth on iOS 5 and Later</title>
+    <link rel="stylesheet" type="text/css" href="screen.css">
+
+    <!-- xcode_css -->
+    <link rel="stylesheet" type="text/css" href="feedback.css">
+</head>
+
+<body>
+
+    <div id="adcHeader" class="hideOnPrint hideInXcode">
+        <div id='ssi_Header' class="hideInXcode unified">
+            <a id="ssi_LibraryTitle" href='../../navigation/'>Documentation Archive</a>
+        </div>
+    </div>
+
+    <header id="header">
+        <div id="title" role="banner">
+            <h1>Bonjour over Bluetooth on iOS 5 and Later</h1>
+        </div>
+        <ul id="headerButtons" class="hideOnPrint" role="toolbar"></ul>
+    </header>
+
+    <article id="contents" tabindex="0" role="main" class="dts_doc">
+        <!-- CONTENTS -->
+
+        <div class="dtsDocNumber">Technical Q&amp;A QA1753</div>
+        <h1 id="pageTitle">Bonjour over Bluetooth on iOS 5 and Later</h1>
+        <h2>Q:&nbsp;
+            After adopting the iOS 5 SDK my app no longer sees Bonjour services over Bluetooth. What's going on here?
+        </h2>
+        <p><span>A: </span>When Bonjour over Bluetooth support was added in iOS 3.0, the default policy was that it
+            should be enabled for all apps. That is, a Bonjour app would operate over Bluetooth unless it explicitly
+            opted out of that behaviour.</p>
+        <p>This policy changed in iOS 5.0. The new policy is that a Bonjour app must explicitly opt in to Bluetooth
+            support. This change was made to reduce interference with Wi-Fi. To ensure binary compatibility, this change
+            is only enabled for apps that link with the iOS 5.0 SDK (or later). This explains why your previous app
+            binary continues to see Bonjour services over Bluetooth, but your latest binary, built with a modern SDK,
+            does not.</p>
+        <p>iOS 7 introduced a new NSNetService property, <code>includesPeerToPeer</code>, that you can set to explicitly
+            enable registration and discovery over Bluetooth. If your app runs on iOS 7 and later, you can simply set
+            that property and you're done.</p>
+        <p>If your app runs on iOS 5 or 6 and you want to reenable Bonjour over Bluetooth, you must switch to using the
+            low-level DNS-SD API (<code>&lt;dns_sd.h&gt;</code>). For an example of how to integrate the DNS-SD API into
+            a Cocoa application, take a look at <span class="content_text"><a href="/samplecode/DNSSDObjects/index.html"
+                    class="urlLink" rel="external">Sample Code 'DNSSDObjects'</a></span>.</p>
+
+        <p>Once you've adopted the DNS-SD API, you can set the <code>interfaceIndex</code> parameter to explicitly
+            control the interfaces over which it operates. The standard value for this parameter,
+            <code>kDNSServiceInterfaceIndexAny</code>, yields the default policy as explained above. You can modify this
+            by passing in the <code>kDNSServiceFlagsIncludeP2P</code> flag, as shown in <span class="content_text">
+                <!--a  -->Table 1
+                <!--/a-->
+            </span>. Alternatively, you can browse for services over Bluetooth, and only over Bluetooth, by passing
+            <code>kDNSServiceInterfaceIndexP2P</code> to the <code>interfaceIndex</code> parameter.
+        </p>
+
+        <div class="tableholder">
+            <table class="graybox" border="0" cellspacing="0" cellpadding="5">
+                <caption class="tablecaption"><strong class="caption_number">Table 1</strong>&nbsp;&nbsp;DNS-SD
+                    kDNSServiceInterfaceIndexAny behavior</caption>
+                <tr>
+                    <th scope="col" class="TableHeading_TableRow_TableCell">
+                        <p>
+                            OS Version
+                        </p>
+                    </th>
+                    <th scope="col" class="TableHeading_TableRow_TableCell">
+                        <p>
+                            SDK Version
+                        </p>
+                    </th>
+                    <th scope="col" class="TableHeading_TableRow_TableCell">
+                        <p>
+                            kDNSServiceFlagsIncludeP2P
+                        </p>
+                    </th>
+                    <th scope="col" class="TableHeading_TableRow_TableCell">
+                        <p>
+                            Behavior
+                        </p>
+                    </th>
+                </tr>
+                <tr>
+                    <td scope="row">
+                        <p>
+                            &lt; 5.0
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            any
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            any value
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            all interfaces, including Bluetooth
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">
+                        <p>
+                            ≥ 5.0
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            ≥ 5.0
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            clear
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            all interfaces, excluding Bluetooth
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row">
+                        <p>
+                            ≥ 5.0
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            any
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            set
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            all interfaces, including Bluetooth
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="importantbox clear">
+            <aside>
+                <p><strong>Important:</strong>&nbsp;Regardless of how you browse for and resolve services, it's
+                    important that you use a connect-by-name API to actually connect to the service. So, once you've
+                    resolved the service using <code>DNSServiceResolve</code>, you should pass the service's DNS name
+                    (the <code>hosttarget</code> parameter to your <code>DNSServiceResolveReply</code> callback) to a
+                    connect-by-name API (like <code>CFStreamCreatePairWithSocketToHost</code>). Try to avoid resolving
+                    the DNS name to a set of IP addresses, because the decision about which IP address to connect to is
+                    a complex one, and best left to the lower levels of the system.</p>
+                <p></p>
+            </aside>
+        </div>
+
+        <div class="importantbox clear">
+            <aside>
+                <p><strong>Important</strong>&nbsp;This document may not represent best practices for current
+                    development. Links to downloads and other resources may no longer be valid.</p>
+                <p></p>
+            </aside>
+        </div>
+
+        <div class="codesample clear">
+            <table>
+                <tr>
+                    <td scope="row">
+                        <pre>SetMovieVolume ( theMovie, GetMovieVolume(theMovie) );<span></span></pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <hr />
+        <h4>Document Revision History</h4><br />
+        <table class="graybox revision-history" border="0" cellspacing="0" cellpadding="5">
+            <colgroup span="1">
+                <col width="145" />
+            </colgroup>
+            <tr>
+                <th scope="col" align="left"><strong>Date</strong></th>
+                <th scope="col" align="left"><strong>Notes</strong></th>
+            </tr>
+            <tr>
+                <td scope="row">2013-11-14</td>
+                <td>
+                    <p>Updated to reflect changes in iOS 7 (r. 10264938).</p>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">2012-01-05</td>
+                <td>
+                    <p>Updated to reference the new DNSSDObjects sample code.</p>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row">2011-10-19</td>
+                <td>
+                    <p>New document that
+                        describes how Bonjour over Bluetooth has changed in iOS 5 and later.</p>
+                </td>
+            </tr>
+        </table><br />
+
+        <hr />
+
+        <img src="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/NetServices/Art/bonjour_intro_2x.png"
+            alt="Art/bonjour_intro_2x.png" width="603" height="419">
+
+        <hr />
+        <p><code>&lt;Instance Name&gt;.&lt;Service Type&gt;.&lt;Domain&gt;</code></p>
+
+    </article>
+
+</body>
+
+</html>
