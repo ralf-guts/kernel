@@ -22,10 +22,94 @@
         <div id="title" role="banner">
             <h1>Bonjour over Bluetooth on iOS 5 and Later</h1>
         </div>
-        <ul id="headerButtons" class="hideOnPrint" role="toolbar"></ul>
+        <ul id="headerButtons" class="hideOnPrint" role="toolbar">
+            <li id="toc_button" style="">
+                <button tabindex="5" id="table_of_contents" class="open" role="checkbox" aria-label="Show Table of Contents">
+                    <span class="disclosure"></span>
+                    Table of Contents
+                </button>
+            </li>
+        </ul>
     </header>
 
-    <article id="contents" tabindex="0" role="main" class="dts_doc">
+    <nav id="tocContainer" tabindex="7" class="isShowingTOC">
+        <ul id="toc" role="tree">
+            <li class=" " data-aref="//apple_ref/doc/uid/TP40002445-SW1"><span class="nodisclosure"></span><span
+                    class="sectionName"><a
+                        href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Introduction.html#//apple_ref/doc/uid/TP40002445-SW1">Introduction</a></span>
+            </li>
+            <li class="children open" data-aref="//apple_ref/doc/uid/TP40002458-SW1" role="treeitem"><span
+                    class="disclosure"></span><span class="sectionName"><a
+                        href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-SW1">Bonjour
+                        Concepts</a></span>
+                <ul>
+                    <li class="children " data-aref="//apple_ref/doc/uid/TP40002458-TPXREF107" role="treeitem"><span
+                            class="disclosure"></span><span class="sectionName"><a
+                                href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-TPXREF107">Why
+                                Bonjour?</a></span>
+                        <ul>
+                            <li class=" " data-aref="//apple_ref/doc/uid/TP40002458-TPXREF108"><span
+                                    class="nodisclosure"></span><span class="sectionName"><a
+                                        href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-TPXREF108">Zero
+                                        Configuration: An Example</a></span></li>
+                        </ul>
+                    </li>
+                    <li class="children " data-aref="//apple_ref/doc/uid/TP40002458-TPXREF109" role="treeitem"><span
+                            class="disclosure"></span><span class="sectionName"><a
+                                href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-TPXREF109">What
+                                Is Bonjour?</a></span>
+                        <ul>
+                            <li class=" " data-aref="//apple_ref/doc/uid/TP40002458-TPXREF110"><span
+                                    class="nodisclosure"></span><span class="sectionName"><a
+                                        href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-TPXREF110">Addressing</a></span>
+                            </li>
+                            <li class=" " data-aref="//apple_ref/doc/uid/TP40002458-BBCJFDFF"><span
+                                    class="nodisclosure"></span><span class="sectionName"><a
+                                        href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-BBCJFDFF">Naming</a></span>
+                            </li>
+                            <li class=" " data-aref="//apple_ref/doc/uid/TP40002458-TPXREF111"><span
+                                    class="nodisclosure"></span><span class="sectionName"><a
+                                        href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-TPXREF111">Service
+                                        Discovery</a></span></li>
+                        </ul>
+                    </li>
+                    <li class="children " data-aref="//apple_ref/doc/uid/TP40002458-TPXREF112" role="treeitem"><span
+                            class="disclosure"></span><span class="sectionName"><a
+                                href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-TPXREF112">How
+                                Bonjour Reduces Overhead</a></span>
+                        <ul>
+                            <li class=" " data-aref="//apple_ref/doc/uid/TP40002458-TPXREF113"><span
+                                    class="nodisclosure"></span><span class="sectionName"><a
+                                        href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-TPXREF113">Caching</a></span>
+                            </li>
+                            <li class=" " data-aref="//apple_ref/doc/uid/TP40002458-TPXREF114"><span
+                                    class="nodisclosure"></span><span class="sectionName"><a
+                                        href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-TPXREF114">Suppression
+                                        of Duplicate Responses</a></span></li>
+                            <li class=" " data-aref="//apple_ref/doc/uid/TP40002458-TPXREF115"><span
+                                    class="nodisclosure"></span><span class="sectionName"><a
+                                        href="/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-TPXREF115">Exponential
+                                        Back-off and Service Announcement</a></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <ul id="TOC_relatedBooks_0" class="related">
+                <h3>RELATED DOCUMENTS</h3>
+                <li class=" " data-aref="//apple_ref/doc/uid/TP40002736"><span class="nodisclosure"></span><span
+                        class="sectionName"><a
+                            href="/library/archive/documentation/Networking/Conceptual/NSNetServiceProgGuide/Introduction.html#//apple_ref/doc/uid/TP40002736">NSNetServices
+                            and CFNetServices Programming Guide</a></span></li>
+            </ul>
+
+            <ul id="TOC_relatedBooks_0" class="related">
+                <h3>RELATED DOCUMENTS</h3>
+            </ul>
+        </ul>
+    </nav>
+
+    <article id="contents" class="isShowingTOC" tabindex="0" role="main" class="dts_doc">
         <!-- CONTENTS -->
 
         <div class="dtsDocNumber">Technical Q&amp;A QA1753</div>
@@ -225,6 +309,9 @@
         <p><code>&lt;Instance Name&gt;.&lt;Service Type&gt;.&lt;Domain&gt;</code></p>
 
     </article>
+
+    <!-- <script charset="utf-8" src="prototype.js"></script> -->
+    <!-- <script src="library.js"></script> -->
 
 </body>
 
